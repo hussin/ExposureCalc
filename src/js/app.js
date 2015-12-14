@@ -1,62 +1,60 @@
-/**
- * Welcome to Pebble.js!
- *
- * This is where you write your app.
- */
+var HomeWindow = require('home');
+var SelectionWindow = require('selection');
+var CameraSettings = require('camera_settings');
+var config = require('config');
 
-var UI = require('ui');
-var Vector2 = require('vector2');
+var run = function() {
+    var aperture, iso, ev;
+    var home = new HomeWindow();
+    home.draw();
+    
+    home.window.on('click', 'up', function(e) {
+        home.moveToNext();
+    });
 
-var main = new UI.Card({
-  title: 'Pebble.js',
-  icon: 'images/menu_icon.png',
-  subtitle: 'Hello World!',
-  body: 'Press any button.',
-  subtitleColor: 'indigo', // Named colors
-  bodyColor: '#9a0036' // Hex colors
-});
+    home.window.on('click', 'down', function(e) {
+        home.moveToPrev();
+    });
 
-main.show();
+    home.window.on('click', 'select', function(e) {
+        var status = home.curStatus;
+        if (status === config.statuses.ISO) {
+            if (!iso) {
+                iso = new SelectionWindow(config.isos, 'ISO ', CameraSettings.iso());
+                iso.window.on('select', function(e) {
+                    var index = e.itemIndex;
+                    CameraSettings.iso(config.isos[index]);
+                    iso.window.hide();
+                });
+            }
+            iso.draw();
+        } else if (status === config.statuses.EV) {
+            if (!ev) {
+                ev = new SelectionWindow(config.evs, 'EV ', CameraSettings.ev(), config.evReferences);
+                ev.window.on('select', function(e) {
+                    var index = e.itemIndex;
+                    CameraSettings.ev(config.evs[index]);
+                    ev.window.hide();
+                });
+            }
+            ev.draw();
 
-main.on('click', 'up', function(e) {
-  var menu = new UI.Menu({
-    sections: [{
-      items: [{
-        title: 'Pebble.js',
-        icon: 'images/menu_icon.png',
-        subtitle: 'Can do Menus'
-      }, {
-        title: 'Second Item',
-        subtitle: 'Subtitle Text'
-      }]
-    }]
-  });
-  menu.on('select', function(e) {
-    console.log('Selected item #' + e.itemIndex + ' of section #' + e.sectionIndex);
-    console.log('The item is titled "' + e.item.title + '"');
-  });
-  menu.show();
-});
+        } else if (status === config.statuses.APERTURE) {
+            if (!aperture) {
+                aperture = new SelectionWindow(config.apertures, 'f/', CameraSettings.aperture());
+                aperture.window.on('select', function(e) {
+                    var index = e.itemIndex;
+                    CameraSettings.aperture(config.apertures[index]);
+                    aperture.window.hide();
+                });
+            }
+            aperture.draw();
+        }
+    });
 
-main.on('click', 'select', function(e) {
-  var wind = new UI.Window({
-    fullscreen: true,
-  });
-  var textfield = new UI.Text({
-    position: new Vector2(0, 65),
-    size: new Vector2(144, 30),
-    font: 'gothic-24-bold',
-    text: 'Text Anywhere!',
-    textAlign: 'center'
-  });
-  wind.add(textfield);
-  wind.show();
-});
+    CameraSettings.on('settingsChanged', function() {
+        home.updateData();
+    });
+};
 
-main.on('click', 'down', function(e) {
-  var card = new UI.Card();
-  card.title('A Card');
-  card.subtitle('Is a Window');
-  card.body('The simplest window type in Pebble.js.');
-  card.show();
-});
+run();
