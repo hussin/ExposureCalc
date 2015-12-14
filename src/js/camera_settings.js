@@ -39,18 +39,13 @@ var CameraSettings = (function() {
             var settingsArr = settingsStr.split(',');
             for (var item in settingsArr) {
                 var setting = settingsArr[item].split(':');
-                console.log(settingsArr);
-                console.log(setting);
                 if (setting.length === 2) {
                     if (setting[0] === 'i') {
                         settings.iso = parseInt(setting[1], 10);
-                        console.log(settings.iso);
                     } else if (setting[0] === 'e') {
                         settings.ev = parseInt(setting[1], 10);
-                        console.log(settings.ev);
                     } else if (setting[0] === 'a') {
                         settings.aperture = parseFloat(setting[1]);
-                        console.log(settings.aperture);
                     }
                 }
             }
