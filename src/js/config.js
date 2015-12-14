@@ -1,9 +1,9 @@
 var config = {
     colors: {
-        bg: '#F7F69C',
-        text: '#000000',
-        activeBg: '#000000',
-        activeText: '#000000'
+        bg: 'yellow',
+        text: 'black',
+        activeBg: 'black',
+        activeText: 'yellow'
     },
     fonts: {
         base: 'gothic-14',

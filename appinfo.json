@@ -1,12 +1,11 @@
 {
-  "uuid": "133215f0-cf20-4c05-997b-3c9be5a64e5b",
-  "shortName": "Pebble.js",
-  "longName": "Pebble.js",
-  "companyName": "Meiguro",
+  "uuid": "d33ef719-646a-4097-a796-a80c3ec36811",
+  "shortName": "ExposureCalc",
+  "longName": "Exposure Calculator",
+  "companyName": "LFHB",
   "versionCode": 1,
-  "versionLabel": "0.4",
+  "versionLabel": "0.1",
   "capabilities": [
-    "configurable"
   ],
   "watchapp": {
     "watchface": false
@@ -38,9 +37,7 @@
     ]
   },
   "targetPlatforms": [
-    "aplite",
-    "basalt",
-    "chalk"
+    "basalt"
   ],
   "sdkVersion": "3"
 }

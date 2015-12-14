@@ -7,8 +7,8 @@ var SelectionWindow = function(list, prefix, currentValue, referenceValues) {
     this.window = new UI.Menu({
         backgroundColor: config.colors.bg,
         textColor: config.colors.text,
-        highlightTextColor: config.colors.bg,
-        highlightBackgroundColor: config.colors.text,
+        highlightTextColor: config.colors.activeText,
+        highlightBackgroundColor: config.colors.activeBg,
     });
 
     var selectWindow = this.window;

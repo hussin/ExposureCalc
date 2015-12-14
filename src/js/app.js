@@ -8,11 +8,11 @@ var run = function() {
     var home = new HomeWindow();
     home.draw();
     
-    home.window.on('click', 'up', function(e) {
+    home.window.on('click', 'down', function(e) {
         home.moveToNext();
     });
 
-    home.window.on('click', 'down', function(e) {
+    home.window.on('click', 'up', function(e) {
         home.moveToPrev();
     });
 
