@@ -1,13 +1,8 @@
 {
-  "uuid": "d33ef719-646a-4097-a796-a80c3ec36811",
-  "shortName": "ExposureCalc",
-  "longName": "Exposure Calculator",
-  "companyName": "LFHB",
-  "versionCode": 1,
-  "versionLabel": "0.1",
   "appKeys": {},
-  "capabilities": [
-  ],
+  "capabilities": [],
+  "companyName": "LFHB",
+  "longName": "Exposure Calculator",
   "resources": {
     "media": [
       {
@@ -27,24 +22,28 @@
         "type": "bitmap"
       },
       {
-        "type": "png",
+        "file": "images/up.png",
         "name": "IMAGE_ARROW_UP",
-        "file": "images/up.png"
+        "type": "png"
       },
       {
-        "type": "png",
+        "file": "images/down.png",
         "name": "IMAGE_ARROW_DOWN",
-        "file": "images/down.png"
+        "type": "png"
       },
       {
-        "type": "font",
         "file": "fonts/UbuntuMono-Regular.ttf",
-        "name": "MONO_FONT_14"
+        "name": "MONO_FONT_14",
+        "type": "font"
       }
     ]
   },
   "sdkVersion": "3",
+  "shortName": "ExposureCalc",
   "targetPlatforms": [
     "basalt"
-  ]
+  ],
+  "uuid": "d33ef719-646a-4097-a796-a80c3ec36811",
+  "versionCode": 1,
+  "versionLabel": "0.1"
 }

@@ -126,6 +126,47 @@ var CameraSettings = (function() {
         return settings.shutter;
     }
 
+    self.increaseIso = function() {
+        var index = config.isos.indexOf(self.iso());
+        if (index < config.isos.length - 1) {
+            self.iso(config.isos[index + 1]);
+        }
+    };
+
+    self.decreaseIso = function() {
+        var index = config.isos.indexOf(self.iso());
+        if (index > 0) {
+            self.iso(config.isos[index - 1]);
+        }
+    };
+
+    self.increaseEv = function() {
+        var index = config.evs.indexOf(self.ev());
+        if (index < config.evs.length - 1) {
+            self.ev(config.evs[index + 1]);
+        }
+    };
+
+    self.decreaseEv = function() {
+        var index = config.evs.indexOf(self.ev());
+        if (index > 0) {
+            self.ev(config.evs[index - 1]);
+        }
+    };
+
+    self.increaseAperture = function() {
+        var index = config.apertures.indexOf(self.aperture());
+        if (index < config.apertures.length - 1) {
+            self.aperture(config.apertures[index + 1]);
+        }
+    };
+
+    self.decreaseAperture = function() {
+        var index = config.apertures.indexOf(self.aperture());
+        if (index > 0) {
+            self.aperture(config.apertures[index - 1]);
+        }
+    };
 
     self.on = Event.on;
     self.fire = Event.fire;

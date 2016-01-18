@@ -5,7 +5,7 @@ var config = require('config');
 
 var HomeWindow = function() {
 
-    var selectionBottom = 50;
+    var shutterTitle = 86;
     var arrowPositions = {
         ISO: 17,
         EV: 64,
@@ -80,10 +80,11 @@ var HomeWindow = function() {
         }),
         shutter: new UI.Text({
             text: 'Shutter Speed',
-            color: config.colors.text,
+            color: config.colors.activeText,
+            backgroundColor: config.colors.activeBg,
             textAlign: 'center',
-            position: new Vector2(3, selectionBottom + 20),
-            size: new Vector2(136, 40),
+            position: new Vector2(3, shutterTitle),
+            size: new Vector2(138, 19),
             font: config.fonts.base
         })
     };
@@ -117,9 +118,18 @@ var HomeWindow = function() {
             text: '1/100s',
             color: config.colors.text,
             textAlign: 'center',
-            position: new Vector2(3, selectionBottom + 44),
+            position: new Vector2(3, shutterTitle + 20),
             size: new Vector2(136, 70),
             font: config.fonts.bigData
+        }),
+        evDesc: new UI.Text({
+            text: '',
+            color: config.colors.text,
+            textAlign: 'center',
+            textOverflow: 'wrap',
+            position: new Vector2(3, this.downArrowTop + 6),
+            size: new Vector2(136, 40),
+            font: config.fonts.base
         })
     };
 
@@ -135,6 +145,7 @@ HomeWindow.prototype.updateData = function() {
     this.fields.ev.text(CameraSettings.ev());
     this.fields.aperture.text(CameraSettings.aperture());
     this.fields.shutter.text(shutter);
+    this.fields.evDesc.text(config.evReferences[CameraSettings.ev() - config.evs[0]]);
 
     var shutterLenAfter = shutter.length;
 
@@ -149,29 +160,61 @@ HomeWindow.prototype.updateData = function() {
 
 HomeWindow.prototype.moveCursor = function(xPos) {
     var curPosX = this.arrowUp.position().x;
-    console.log(xPos);
-    console.log(curPosX);
-    console.log(this.upArrowTop);
-    console.log(this.downArrowTop);
     this.arrowUp
-        .animate('position', new Vector2(this.arrowUp.position().x, this.upArrowTop + 3), 10)
+        .animate('position', new Vector2(curPosX, this.upArrowTop + 2), 10)
         .queue(function(next) {next();});
     this.arrowUp
         .animate('position', new Vector2(xPos, this.upArrowTop), 100)
         .queue(function(next) {next();});
     this.arrowUp
-        .animate('position', new Vector2(this.arrowUp.position().x, this.upArrowTop), 10)
+        .animate('position', new Vector2(xPos, this.upArrowTop), 10)
         .queue(function(next) {next();});
     
     this.arrowDown
-        .animate('position',  new Vector2(this.arrowDown.position().x, this.downArrowTop - 3), 10)
+        .animate('position',  new Vector2(curPosX, this.downArrowTop - 2), 10)
         .queue(function(next) {next();});
     this.arrowDown
         .animate('position', new Vector2(xPos, this.downArrowTop), 100)
         .queue(function(next) {next();});
     this.arrowDown
-        .animate('position', new Vector2(this.arrowDown.position().x, this.downArrowTop), 10)
+        .animate('position', new Vector2(xPos, this.downArrowTop), 10)
         .queue(function(next) {next();});
+};
+
+HomeWindow.prototype.selectPrevValue = function() {
+    var curPosX = this.arrowUp.position().x;
+    this.arrowUp
+        .animate('position', new Vector2(curPosX, this.upArrowTop - 3), 10)
+        .queue(function(next) {next();});
+    this.arrowUp
+        .animate('position', new Vector2(curPosX, this.upArrowTop), 10)
+        .queue(function(next) {next();});
+
+    if (this.curStatus === config.statuses.ISO) {
+        CameraSettings.increaseIso();
+    } else if (this.curStatus === config.statuses.EV) {
+        CameraSettings.increaseEv();
+    } else if (this.curStatus === config.statuses.APERTURE) {
+        CameraSettings.increaseAperture();
+    }
+};
+
+HomeWindow.prototype.selectNextValue = function() {
+    var curPosX = this.arrowDown.position().x;
+    this.arrowDown
+        .animate('position', new Vector2(curPosX, this.downArrowTop + 3), 10)
+        .queue(function(next) {next();});
+    this.arrowDown
+        .animate('position', new Vector2(curPosX, this.downArrowTop), 10)
+        .queue(function(next) {next();});
+
+    if (this.curStatus === config.statuses.ISO) {
+        CameraSettings.decreaseIso();
+    } else if (this.curStatus === config.statuses.EV) {
+        CameraSettings.decreaseEv();
+    } else if (this.curStatus === config.statuses.APERTURE) {
+        CameraSettings.decreaseAperture();
+    }
 };
 
 HomeWindow.prototype.moveToNext = function() {
@@ -185,6 +228,7 @@ HomeWindow.prototype.moveToPrev = function() {
 };
 
 HomeWindow.prototype.draw = function() {
+    var item;
     var current = this.statusOrder[this.curStatus];
     this.arrowUp.position(new Vector2(current, this.upArrowTop));
     this.arrowDown.position(new Vector2(current, this.downArrowTop));
