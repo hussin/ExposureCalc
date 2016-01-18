@@ -5,29 +5,26 @@
   "companyName": "LFHB",
   "versionCode": 1,
   "versionLabel": "0.1",
+  "appKeys": {},
   "capabilities": [
   ],
-  "watchapp": {
-    "watchface": false
-  },
-  "appKeys": {},
   "resources": {
     "media": [
       {
+        "file": "images/menu_icon.png",
         "menuIcon": true,
-        "type": "png",
         "name": "IMAGE_MENU_ICON",
-        "file": "images/menu_icon.png"
+        "type": "bitmap"
       },
       {
-        "type": "png",
+        "file": "images/logo_splash.png",
         "name": "IMAGE_LOGO_SPLASH",
-        "file": "images/logo_splash.png"
+        "type": "bitmap"
       },
       {
-        "type": "png",
+        "file": "images/tile_splash.png",
         "name": "IMAGE_TILE_SPLASH",
-        "file": "images/tile_splash.png"
+        "type": "bitmap"
       },
       {
         "type": "png",
@@ -41,13 +38,13 @@
       },
       {
         "type": "font",
-        "name": "MONO_FONT_14",
-        "file": "fonts/UbuntuMono-Regular.ttf"
+        "file": "fonts/UbuntuMono-Regular.ttf",
+        "name": "MONO_FONT_14"
       }
     ]
   },
+  "sdkVersion": "3",
   "targetPlatforms": [
     "basalt"
-  ],
-  "sdkVersion": "3"
+  ]
 }
