@@ -6,32 +6,24 @@ var config = require('config');
 var HomeWindow = function() {
 
     var selectionBottom = 50;
+    var arrowPositions = {
+        ISO: 17,
+        EV: 64,
+        APERTURE: 111
+    }
 
     var smallBox = new Vector2(44, 2);
     var textBox = new Vector2(44, 30);
 
     var homeWindow = this;
 
-    this.selectionGeom = {
-        ISO: {
-            position: new Vector2(3, selectionBottom),
-            size: smallBox
-        },
-        EV: {
-            position: new Vector2(50, selectionBottom),
-            size: smallBox
-        },
-        APERTURE: {
-            position: new Vector2(97, selectionBottom),
-            size: smallBox
-        }
-    };
-
     this.statusOrder = [
-        this.selectionGeom.ISO,
-        this.selectionGeom.EV,
-        this.selectionGeom.APERTURE
+        arrowPositions.ISO,
+        arrowPositions.EV,
+        arrowPositions.APERTURE
     ];
+    this.upArrowTop = 3;
+    this.downArrowTop = 46;
 
     this.curStatus = config.statuses.ISO;
 
@@ -46,12 +38,27 @@ var HomeWindow = function() {
         backgroundColor: config.colors.activeBg,
     });
 
+    this.arrowUp = new UI.Image({
+	position: new Vector2(17, this.upArrowTop),
+	size: new Vector2(15, 7),
+	image: 'images/up.png'
+    });
+    
+    this.arrowDown = new UI.Image({
+	position: new Vector2(17, this.downArrowTop),
+	size: new Vector2(15, 7),
+	image: 'images/down.png'
+    });
+
+    this.arrowUp.compositing('set');
+    this.arrowDown.compositing('set');
+
     this.labels = {
         iso: new UI.Text({
             text: 'ISO',
             color: config.colors.text,
             textAlign: 'center',
-            position: new Vector2(3, 6),
+            position: new Vector2(3, 9),
             size: textBox,
             font: config.fonts.base
         }),
@@ -59,7 +66,7 @@ var HomeWindow = function() {
             text: 'EV',
             color: config.colors.text,
             textAlign: 'center',
-            position: new Vector2(50, 6),
+            position: new Vector2(50, 9),
             size: textBox,
             font: config.fonts.base
         }),
@@ -67,7 +74,7 @@ var HomeWindow = function() {
             text: 'f/',
             color: config.colors.text,
             textAlign: 'center',
-            position: new Vector2(97, 6),
+            position: new Vector2(97, 9),
             size: smallBox,
             font: config.fonts.base
         }),
@@ -140,11 +147,31 @@ HomeWindow.prototype.updateData = function() {
     }
 };
 
-HomeWindow.prototype.moveCursor = function(geom) {
-    this.selectionBox.animate({
-        position: geom.position,
-        size: geom.size
-    }, 100);
+HomeWindow.prototype.moveCursor = function(xPos) {
+    var curPosX = this.arrowUp.position().x;
+    console.log(xPos);
+    console.log(curPosX);
+    console.log(this.upArrowTop);
+    console.log(this.downArrowTop);
+    this.arrowUp
+        .animate('position', new Vector2(this.arrowUp.position().x, this.upArrowTop + 3), 10)
+        .queue(function(next) {next();});
+    this.arrowUp
+        .animate('position', new Vector2(xPos, this.upArrowTop), 100)
+        .queue(function(next) {next();});
+    this.arrowUp
+        .animate('position', new Vector2(this.arrowUp.position().x, this.upArrowTop), 10)
+        .queue(function(next) {next();});
+    
+    this.arrowDown
+        .animate('position',  new Vector2(this.arrowDown.position().x, this.downArrowTop - 3), 10)
+        .queue(function(next) {next();});
+    this.arrowDown
+        .animate('position', new Vector2(xPos, this.downArrowTop), 100)
+        .queue(function(next) {next();});
+    this.arrowDown
+        .animate('position', new Vector2(this.arrowDown.position().x, this.downArrowTop), 10)
+        .queue(function(next) {next();});
 };
 
 HomeWindow.prototype.moveToNext = function() {
@@ -159,9 +186,10 @@ HomeWindow.prototype.moveToPrev = function() {
 
 HomeWindow.prototype.draw = function() {
     var current = this.statusOrder[this.curStatus];
-    this.selectionBox.position(current.position);
-    this.selectionBox.size(current.size);
-    this.window.add(this.selectionBox);
+    this.arrowUp.position(new Vector2(current, this.upArrowTop));
+    this.arrowDown.position(new Vector2(current, this.downArrowTop));
+    this.window.add(this.arrowUp);
+    this.window.add(this.arrowDown);
 
     for (item in this.labels) {
         this.window.add(this.labels[item]);

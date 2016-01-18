@@ -30,6 +30,16 @@
         "file": "images/tile_splash.png"
       },
       {
+        "type": "png",
+        "name": "IMAGE_ARROW_UP",
+        "file": "images/up.png"
+      },
+      {
+        "type": "png",
+        "name": "IMAGE_ARROW_DOWN",
+        "file": "images/down.png"
+      },
+      {
         "type": "font",
         "name": "MONO_FONT_14",
         "file": "fonts/UbuntuMono-Regular.ttf"
