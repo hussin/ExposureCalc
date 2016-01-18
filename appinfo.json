@@ -41,7 +41,8 @@
   "sdkVersion": "3",
   "shortName": "ExposureCalc",
   "targetPlatforms": [
-    "basalt"
+    "basalt",
+    "chalk"
   ],
   "uuid": "d33ef719-646a-4097-a796-a80c3ec36811",
   "versionCode": 1,

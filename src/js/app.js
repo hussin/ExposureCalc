@@ -1,5 +1,4 @@
 var HomeWindow = require('home');
-var SelectionWindow = require('selection');
 var CameraSettings = require('camera_settings');
 var config = require('config');
 

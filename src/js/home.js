@@ -6,10 +6,18 @@ var config = require('config');
 var HomeWindow = function() {
 
     var shutterTitle = 86;
+    var baseX = 0;
+    this.maxShutterLen = 6;
+
+    if (Pebble.getActiveWatchInfo().platform === 'chalk') {
+        baseX = 17;
+        this.maxShutterLen = 5;
+    }
+
     var arrowPositions = {
-        ISO: 17,
-        EV: 64,
-        APERTURE: 111
+        ISO: baseX + 17,
+        EV: baseX + 64,
+        APERTURE: baseX + 111
     }
 
     var smallBox = new Vector2(44, 2);
@@ -32,20 +40,20 @@ var HomeWindow = function() {
     });
 
     this.selectionBox = new UI.Rect({
-        position: new Vector2(3, 43),
+        position: new Vector2(baseX + 3, 43),
         size: new Vector2(40,48),
         borderColor: 'clear',
         backgroundColor: config.colors.activeBg,
     });
 
     this.arrowUp = new UI.Image({
-	position: new Vector2(17, this.upArrowTop),
+	position: new Vector2(baseX + 17, this.upArrowTop),
 	size: new Vector2(15, 7),
 	image: 'images/up.png'
     });
     
     this.arrowDown = new UI.Image({
-	position: new Vector2(17, this.downArrowTop),
+	position: new Vector2(baseX + 17, this.downArrowTop),
 	size: new Vector2(15, 7),
 	image: 'images/down.png'
     });
@@ -58,7 +66,7 @@ var HomeWindow = function() {
             text: 'ISO',
             color: config.colors.text,
             textAlign: 'center',
-            position: new Vector2(3, 9),
+            position: new Vector2(baseX + 3, 9),
             size: textBox,
             font: config.fonts.base
         }),
@@ -66,7 +74,7 @@ var HomeWindow = function() {
             text: 'EV',
             color: config.colors.text,
             textAlign: 'center',
-            position: new Vector2(50, 9),
+            position: new Vector2(baseX + 50, 9),
             size: textBox,
             font: config.fonts.base
         }),
@@ -74,7 +82,7 @@ var HomeWindow = function() {
             text: 'f/',
             color: config.colors.text,
             textAlign: 'center',
-            position: new Vector2(97, 9),
+            position: new Vector2(baseX + 97, 9),
             size: smallBox,
             font: config.fonts.base
         }),
@@ -83,7 +91,7 @@ var HomeWindow = function() {
             color: config.colors.activeText,
             backgroundColor: config.colors.activeBg,
             textAlign: 'center',
-            position: new Vector2(3, shutterTitle),
+            position: new Vector2(baseX + 3, shutterTitle),
             size: new Vector2(138, 19),
             font: config.fonts.base
         })
@@ -94,7 +102,7 @@ var HomeWindow = function() {
             text: '100',
             color: config.colors.text,
             textAlign: 'center',
-            position: new Vector2(3, 24),
+            position: new Vector2(baseX + 3, 24),
             size: textBox,
             font: config.fonts.data
         }),
@@ -102,7 +110,7 @@ var HomeWindow = function() {
             text: '10',
             color: config.colors.text,
             textAlign: 'center',
-            position: new Vector2(50, 24),
+            position: new Vector2(baseX + 50, 24),
             size: textBox,
             font: config.fonts.data
         }),
@@ -110,7 +118,7 @@ var HomeWindow = function() {
             text: '2.8',
             color: config.colors.text,
             textAlign: 'center',
-            position: new Vector2(97, 24),
+            position: new Vector2(baseX + 97, 24),
             size: smallBox,
             font: config.fonts.data
         }),
@@ -118,7 +126,7 @@ var HomeWindow = function() {
             text: '1/100s',
             color: config.colors.text,
             textAlign: 'center',
-            position: new Vector2(3, shutterTitle + 20),
+            position: new Vector2(baseX + 3, shutterTitle + 20),
             size: new Vector2(136, 70),
             font: config.fonts.bigData
         }),
@@ -127,7 +135,7 @@ var HomeWindow = function() {
             color: config.colors.text,
             textAlign: 'center',
             textOverflow: 'wrap',
-            position: new Vector2(3, this.downArrowTop + 6),
+            position: new Vector2(baseX + 3, this.downArrowTop + 6),
             size: new Vector2(136, 40),
             font: config.fonts.base
         })
@@ -150,7 +158,7 @@ HomeWindow.prototype.updateData = function() {
     var shutterLenAfter = shutter.length;
 
     if (shutterLenAfter != shutterLenBefore) {
-        if (shutterLenAfter > 6 && (shutter.indexOf('m') !== -1 || shutter.indexOf('+') !== -1)) {
+        if (shutterLenAfter > this.maxShutterLen) {
             this.fields.shutter.font(config.fonts.longBigData);
         } else {
             this.fields.shutter.font(config.fonts.bigData);
