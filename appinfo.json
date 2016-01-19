@@ -9,7 +9,7 @@
         "file": "images/menu_icon.png",
         "menuIcon": true,
         "name": "IMAGE_MENU_ICON",
-        "type": "bitmap"
+        "type": "png"
       },
       {
         "file": "images/logo_splash.png",
@@ -41,10 +41,14 @@
   "sdkVersion": "3",
   "shortName": "ExposureCalc",
   "targetPlatforms": [
+    "aplite",
     "basalt",
     "chalk"
   ],
   "uuid": "d33ef719-646a-4097-a796-a80c3ec36811",
   "versionCode": 1,
-  "versionLabel": "0.1"
+  "versionLabel": "0.1",
+  "watchapp": {
+    "watchface": false
+  }
 }
